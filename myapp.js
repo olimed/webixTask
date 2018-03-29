@@ -50,12 +50,14 @@ var formOnCol = {
         { margin:5, cols:[
             { view:"button", label:"Add new", css:"greenButton"},
             { view:"button", label:"Clear"}
-        ]}
+        ]},
+        { }
   	]           
 };
 
 var footer = {
     view: "template", 
+    height: 40,
     css:"textTemplate", 
     template: "The software is provided by <a href=\"https://webix.com\">https://webix.com</a>. All rights reserved (c)."
 }
