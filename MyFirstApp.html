@@ -1,31 +1,47 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title> My First App </title>
-        <script type="text/javascript" src="http://cdn.webix.com/edge/webix_debug.js"></script>
-        <link rel="stylesheet" type="text/css" href="http://cdn.webix.com/edge/webix.css">
-        <script type="text/javascript" src="testdata.js"></script>
-        <style>
-            .greenButton.webix_el_button button{
-                background:green;
-                border:1px solid green;  
-                color: #ffffff;
+
+<head>
+    <meta charset="utf-8">
+    <title> My First App </title>
+    <script type="text/javascript" src="http://cdn.webix.com/edge/webix_debug.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://cdn.webix.com/edge/webix.css">
+    <script type="text/javascript" src="./data/testdata.js"></script>
+    <script type="text/javascript" src="./data/products.js"></script>
+    <script type="text/javascript" src="./data/users.js"></script>
+    <style>
+        .greenButton.webix_el_button button {
+            background: green;
+            border: 1px solid green;
+            color: #ffffff;
         }
-        .greenText{
-            font-weight:bold;
+
+        .greenText {
+            font-weight: bold;
             color: green;
         }
-        .textTemplate{
+
+        .textTemplate {
             text-align: center;
         }
+
         .backgroundList .webix_view {
             background-color: rgb(247, 241, 241);
         }
-        </style>      
-    </head>
-    <body>
-    
-        <script type="text/javascript" src="myapp.js"></script>
-    </body>
+
+        .mouseHover.webix_cell{
+  	        background: greenyellow;
+        }
+
+        .colorful{
+            background-color: #DDFFDD;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script type="text/javascript" src="myapp.js"></script>
+</body>
+
 </html>
