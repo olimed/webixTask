@@ -1,4 +1,4 @@
-var dataForList = ["Dashboard", "Users", "Products", "Locations"];
+var dataForList = ["Dashboard", "Users", "Products", "Admin"];
 var options = "data/categories.js";
 var collection = [
 	{ id:1, value:"Germany" },
@@ -10,6 +10,18 @@ var collection = [
 	{ id:7, value:"Italy" },
 	{ id:8, value:"Spain" }
 ];
+
+var categoriesCollection = new webix.DataCollection({
+    url: "data/categories.js"
+});
+
+var countriesCollection = new webix.DataCollection({
+    url: "data/countries.js"
+});
+
+var usersCollection = new webix.DataCollection({
+    url: "data/users.js"
+});
 
 var toolbar = {
     view: "toolbar", paddingY: 1, height: 50, elements: [
@@ -59,6 +71,7 @@ var tabbar = {
 
 var datatableOnCol = {
     view: "datatable",
+    save: "rest->//docs.webix.com/samples/40_serverside/01_php_vanila/server/datatable_save.php",
     id: "table",
     scrollX: false,
     select: "row",
@@ -69,7 +82,7 @@ var datatableOnCol = {
     columns: [
         { id: "id", header: "", width: 40, sort: "int" },
         { id: "title", header: ["Film title", { content: "textFilter" }], fillspace: true, sort: "string" },
-        { id: "categoryId", header: "Category", editor: "select", collection: options },
+        { id: "categoryId", header: "Category", editor: "select", collection: categoriesCollection },
         { id: "year", header: "Released", /*{ content: "textFilter" }],*/ sort: "int" },
         { id: "votes", header: ["Votes", { content: "textFilter" }], sort: "realNumbers" },
         { id: "rating", header: ["Rating", { content: "textFilter" }], sort: "realNumbers" },
@@ -140,6 +153,13 @@ var formOnCol = {
                     click: function () {
                         $$("table").unselectAll();
                     }
+                },
+                {
+                    view: "richselect",
+                    name:"categoryId",
+                    label: "Category",
+                    id: "richselectCategory",
+                    options: categoriesCollection.data
                 }
             ]
         },
@@ -302,12 +322,47 @@ var productsTree = {
     }
 }
 
+var adminTabbar = { 
+    view:"toolbar", 
+    cols:[
+        {
+            view: "button", 
+            value: "Add new", 
+            click: function(){
+                categoriesCollection.add({value:"New category ", id: categoriesCollection.count() + 1})
+            }
+        },
+        { 
+            view: "button", 
+            value: "Remove selected", 
+            click: function(){
+                var sel = $$("admintable").getSelectedId(); // || $$("table").getSelectedId();
+                if(sel)
+                    categoriesCollection.remove(sel);
+            }
+        }
+    ]
+};
+
+var adminTable = {
+    view:"datatable",
+    id:"admintable",
+    columns:[
+      { id:"id",	header:"", 	width:50},
+      { id:"value",	header:"Category",	fillspace:true,	editor:"text"},
+    ],
+    editaction:"dblclick",
+    editable:true,
+    scrollX:false,
+    select:true
+  };
+
 var cells = {
     cells: [
         { id: "Dashboard", cols: [{ rows: [tabbar, datatableOnCol] }, formOnCol] },
         { id: "Users", rows: [usersList, usersChart] },
         { id: "Products", cols: [productsTree] },
-        { id: "Locations", template: "Locations view" }
+        { id: "Admin", rows: [adminTabbar, adminTable] }
     ]
 };
 
@@ -345,6 +400,8 @@ webix.ui({
     rows: [toolbar, main, footer]
 });
 
+$$("admintable").sync(categoriesCollection);
+$$("richselectCategory").getList().data.sync(categoriesCollection);
 $$("mylist").select("Dashboard");
 $$('mainForm').bind($$('table'));
 $$("usersChart").sync($$("usersList"), function () {
